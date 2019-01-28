@@ -1,7 +1,5 @@
-package games.board
+package board
 
-import board.GameBoard
-import board.createGameBoard
 import org.junit.Assert
 import org.junit.Test
 
@@ -46,5 +44,15 @@ class TestGameBoard {
         gameBoard[1, 2] = 'b'
         Assert.assertTrue(gameBoard.any { it in 'a'..'b' })
         Assert.assertTrue(gameBoard.any { it == null })
+    }
+
+    @Test
+    fun testTheSameCell() {
+        val gameBoard = createGameBoard<Char>(2)
+        gameBoard[1, 1] = 'a'
+        val cell1 = gameBoard.find { it == 'a' }
+        gameBoard[1, 1] = 'b'
+        val cell2 = gameBoard.find { it == 'b' }
+        Assert.assertEquals(cell1, cell2)
     }
 }
