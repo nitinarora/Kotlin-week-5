@@ -17,20 +17,23 @@ package games.game2048
  *
  * You can find more examples in 'TestGame2048Helper'.
 */
+
+const val DONT_SKIP = 999
+
 fun <T : Any> List<T?>.moveAndMergeEqual(merge: (T) -> T): List<T> {
     val mutableList: MutableList<T> = this.filterNotNull().toMutableList()
     val mutableListtoreturn: MutableList<T> = mutableListOf()
-    var indexToSkip = 100
+    var skipIndex = DONT_SKIP
 
     mutableList.forEachIndexed { id, t ->
         when {
-            (indexToSkip==100 || id != indexToSkip) && mutableList.elementAtOrNull(id+1) == t -> {
+            (skipIndex==DONT_SKIP || id != skipIndex) && mutableList.elementAtOrNull(id+1) == t -> {
                 mutableListtoreturn.add(merge(t))
-                indexToSkip = id + 1
+                skipIndex = id + 1
             }
-            indexToSkip == 100 || id != indexToSkip -> {
+            skipIndex == DONT_SKIP || id != skipIndex -> {
                 mutableListtoreturn.add(t)
-                indexToSkip = 100
+                skipIndex = DONT_SKIP
             }
         }
     }

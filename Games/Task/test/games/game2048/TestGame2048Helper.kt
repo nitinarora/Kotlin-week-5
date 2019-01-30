@@ -68,6 +68,12 @@ class TestGame2048Helper {
     @Test
     fun testCustom2() = testMerge(listOf("b", "a", "a", "a"), listOf("b", "aa", "a"))
 
+    @Test
+    fun testCustom3() = testMerge(listOf("a", "a", "b", "b", "b", "a", "b"), listOf("aa", "bb", "b", "a", "b"))
+
+    @Test
+    fun testCustom4() = testMerge(listOf("aa", "aa", "aa", "b"), listOf("aaaa", "aa", "b"))
+
     private fun testMerge(input: List<String?>, expected: List<String?>) {
         val result = input.moveAndMergeEqual { it.repeat(2) }
         Assert.assertEquals("Wrong result for $input.moveAndMergeEqual()",
