@@ -25,6 +25,12 @@ class TestGame2048Initializer : AbstractTestGameWithSmallNumbers() {
     @Test
     fun test4() = testNextValue("0248 2020 0208 4442")
 
+    @Test
+    fun testCustom1() = testNextValue("0000 2020 0208 4442")
+
+    @Test
+    fun testCustom2() = testNextValue("0000 0000 0000 0000")
+
     private fun testNextValue(input: String) {
         val board = createBoard(input)
         val (cell, value) = RandomGame2048Initializer.nextValue(board)
