@@ -16,11 +16,15 @@ class TestAddingValue : AbstractTestGameWithSmallNumbers() {
     @Test
     fun test4() = testAddingOneNumber("-248 2-2- -2-8 4442")
 
+//    @Test
+//    fun testCustom1() = testAddingOneNumber("4248 2428 8242 4448")
+
     private fun testAddingOneNumber(input: String) {
         val inputBoard = TestBoard(input)
         val board = createBoard(inputBoard)
         board.addNewValue(RandomGame2048Initializer)
         val result = board.toTestBoard()
+        println(result)
         Assert.assertEquals(
                 buildString {
                     appendln("Only one element should be different after adding a new element.")
