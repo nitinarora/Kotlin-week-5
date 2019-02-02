@@ -1,8 +1,7 @@
 package games.game2048
 
 import board.Direction
-import board.Direction.DOWN
-import board.Direction.RIGHT
+import board.Direction.*
 import org.junit.Assert
 import org.junit.Test
 
@@ -12,6 +11,9 @@ class TestMoveValues : AbstractTestGameWithSmallNumbers() {
 
     @Test
     fun testNoMove() = testAllDirections("---- ---- ---- 2424", "---- ---- ---- 2424", move = false)
+
+    @Test
+    fun testNoMoveCustom() = testAllDirections2("2424 ---- ---- ----", "2424 ---- ---- ----", move = false)
 
     @Test
     fun testSeveralMoves() = testAllDirections("2--- -2-- --2- ---2", "---2 ---2 ---2 ---2")
@@ -30,6 +32,13 @@ class TestMoveValues : AbstractTestGameWithSmallNumbers() {
         val expected = TestBoard(expectedString)
         testRegularAndReversedDirections(RIGHT, input, expected, move)
         testRegularAndReversedDirections(DOWN, input.mirror(), expected.mirror(), move)
+    }
+
+    private fun testAllDirections2(inputString: String, expectedString: String, move: Boolean = true) {
+        val input = TestBoard(inputString)
+        val expected = TestBoard(expectedString)
+        testRegularAndReversedDirections(LEFT, input, expected, move)
+        testRegularAndReversedDirections(UP, input.mirror(), expected.mirror(), move)
     }
 
     private fun testRegularAndReversedDirections(direction: Direction, input: TestBoard, expected: TestBoard, move: Boolean) {
