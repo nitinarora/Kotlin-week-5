@@ -18,11 +18,10 @@ fun newGameOfFifteen(initializer: GameOfFifteenInitializer = RandomGameInitializ
 
             override fun initialize() {
                 currentPermutation = initializer.initialPermutation
-                val randomIndex = Random.nextInt(0..15)
                 gb.getAllCells().forEachIndexed{ id, cell ->
-                    when (id) {
-                        randomIndex -> gb[cell] = null
-                        else -> gb[cell] = currentPermutation[id]
+                    when {
+                        id < 15 -> gb[cell] = currentPermutation[id]
+                        else -> gb[cell] = null
                     }
                 }
             }
@@ -33,7 +32,7 @@ fun newGameOfFifteen(initializer: GameOfFifteenInitializer = RandomGameInitializ
                 val allCells = gb.getAllCells()
 
                 allCells.forEachIndexed { index, cell ->
-                    if (index <15 && ( gb[cell] == null ||  gb[cell] != index)) {
+                    if (index <15 && gb[cell] != index+1) {
                         return false
                     }
                 }
