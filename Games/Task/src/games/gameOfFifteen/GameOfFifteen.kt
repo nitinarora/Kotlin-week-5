@@ -1,11 +1,10 @@
 package games.gameOfFifteen
 
+import board.Cell
 import board.Direction
 import board.GameBoard
 import board.createGameBoard
 import games.game.Game
-import kotlin.random.Random
-import kotlin.random.nextInt
 
 /*
  * Implement the Game of Fifteen (https://en.wikipedia.org/wiki/15_puzzle).
@@ -18,7 +17,7 @@ fun newGameOfFifteen(initializer: GameOfFifteenInitializer = RandomGameInitializ
 
             override fun initialize() {
                 currentPermutation = initializer.initialPermutation
-                gb.getAllCells().forEachIndexed{ id, cell ->
+                gb.getAllCells().forEachIndexed { id, cell ->
                     when {
                         id < 15 -> gb[cell] = currentPermutation[id]
                         else -> gb[cell] = null
@@ -29,10 +28,8 @@ fun newGameOfFifteen(initializer: GameOfFifteenInitializer = RandomGameInitializ
             override fun canMove(): Boolean = isEven(currentPermutation)
 
             override fun hasWon(): Boolean {
-                val allCells = gb.getAllCells()
-
-                allCells.forEachIndexed { index, cell ->
-                    if (index <15 && gb[cell] != index+1) {
+                gb.getAllCells().forEachIndexed { i, cell ->
+                    if (i < 15 && gb[cell] != i + 1) {
                         return false
                     }
                 }
@@ -40,12 +37,45 @@ fun newGameOfFifteen(initializer: GameOfFifteenInitializer = RandomGameInitializ
             }
 
             override fun processMove(direction: Direction) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                //find out the null cell
+                var nullCell: Cell = gb.getAllCells().first { gb[it] == null }
+                //depending on the direction swap the value with the neighbour cell
+                when (direction) {
+                    Direction.UP -> {
+                        val neighbourCell = gb.getCellOrNull(nullCell.i + 1, nullCell.j)
+                        if (neighbourCell != null) {
+                            swapWithNeighbourCell(nullCell, neighbourCell)
+                        }
+                    }
+                    Direction.DOWN -> {
+                        val neighbourCell = gb.getCellOrNull(nullCell.i - 1, nullCell.j)
+                        if (neighbourCell != null) {
+                            swapWithNeighbourCell(nullCell, neighbourCell)
+                        }
+                    }
+                    Direction.LEFT -> {
+                        val neighbourCell = gb.getCellOrNull(nullCell.i, nullCell.j + 1)
+                        if (neighbourCell != null) {
+                            swapWithNeighbourCell(nullCell, neighbourCell)
+                        }
+                    }
+                    Direction.RIGHT -> {
+                        val neighbourCell = gb.getCellOrNull(nullCell.i, nullCell.j - 1)
+                        if (neighbourCell != null) {
+                            swapWithNeighbourCell(nullCell, neighbourCell)
+                        }
+                    }
+                }
+            }
+
+            private fun swapWithNeighbourCell(nullCell: Cell, neighbourCell: Cell) {
+                gb[nullCell] = gb[neighbourCell]
+                gb[neighbourCell] = null
             }
 
             override fun get(i: Int, j: Int): Int? {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                val cell = gb.getCell(i, j)
+                return gb[cell]
             }
-
         }
 
